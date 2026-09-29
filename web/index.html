@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock Interviewer</title>
+<meta name="description" content="Practice campus-placement interviews out loud. A small AI model running in your browser checks each answer against the key points interviewers listen for.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2' stroke-linecap='round'><path d='M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z'/><path d='M19 10v2a7 7 0 0 1-14 0v-2M12 19v3'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf5ff; --card: #ffffff; --text: #0f172a; --muted: #5b6475; --border: #ebe3fb; --soft: #f5f0ff;
+    --primary: #7c3aed; --on-primary: #ffffff; --ok: #15803d; --ok-bg: #e9f7ee; --part: #a16207; --part-bg: #fdf6e3;
+    --bad: #b91c1c; --bad-bg: #fdecec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0e0a18; --card: #171225; --text: #ede9fe; --muted: #a9a3bd; --border: #2a2240; --soft: #1e1830;
+      --primary: #a78bfa; --on-primary: #160d2e; --ok: #4ade80; --ok-bg: #0f2a1a; --part: #facc15; --part-bg: #2a2410;
+      --bad: #f87171; --bad-bg: #2d1416; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 "Open Sans", system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 56px; }
+  h1, h2, h3 { font-family: Poppins, system-ui, sans-serif; line-height: 1.25; }
+  h1 { font-size: 1.9rem; margin: 0 0 6px; display: flex; align-items: center; gap: 10px; }
+  h2 { font-size: 1.3rem; margin: 0 0 12px; }
+  .sub { color: var(--muted); margin: 0 0 22px; }
+  svg.i { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  h1 svg.i { width: 30px; height: 30px; color: var(--primary); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  button, .btn { font: 600 .95rem "Open Sans", sans-serif; cursor: pointer; border-radius: 10px; padding: 10px 18px; min-height: 44px;
+    border: 1px solid var(--border); background: var(--card); color: var(--text); display: inline-flex; align-items: center; gap: 8px;
+    transition: background .15s, border-color .15s; }
+  button:hover:not(:disabled) { border-color: var(--primary); }
+  button:focus-visible, textarea:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  button.primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+  button.rec { color: var(--bad); border-color: var(--bad); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { border-radius: 999px; padding: 6px 14px; min-height: 38px; font-weight: 600; font-size: .9rem; }
+  .chip[aria-pressed="true"] { background: var(--soft); border-color: var(--primary); color: var(--primary); }
+  label.row { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  select { font: inherit; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); min-height: 44px; }
+  input[type=range] { accent-color: var(--primary); }
+  .note { color: var(--muted); font-size: .88rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; align-items: center; }
+  .bar { height: 8px; background: var(--soft); border-radius: 99px; overflow: hidden; margin-top: 10px; }
+  .bar div { height: 100%; width: 0; background: var(--primary); transition: width .2s; }
+  .qmeta { color: var(--primary); font-weight: 600; font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; }
+  .question { font: 600 1.35rem/1.35 Poppins, sans-serif; margin: 6px 0 14px; }
+  textarea { width: 100%; min-height: 160px; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px; resize: vertical; }
+  .scorebox { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+  .ring { --p: 0; width: 84px; height: 84px; border-radius: 50%; flex: none; display: grid; place-items: center;
+    background: conic-gradient(var(--primary) calc(var(--p) * 1%), var(--soft) 0); }
+  .ring span { width: 66px; height: 66px; border-radius: 50%; background: var(--card); display: grid; place-items: center;
+    font: 700 1.25rem Poppins, sans-serif; }
+  .pt { display: flex; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-top: 8px; align-items: flex-start; }
+  .pt.covered { background: var(--ok-bg); } .pt.partial { background: var(--part-bg); } .pt.missed { background: var(--bad-bg); }
+  .pt .tag { font-weight: 700; font-size: .78rem; text-transform: uppercase; min-width: 68px; }
+  .pt.covered .tag { color: var(--ok); } .pt.partial .tag { color: var(--part); } .pt.missed .tag { color: var(--bad); }
+  .pt q { display: block; color: var(--muted); font-style: italic; font-size: .9rem; margin-top: 2px; }
+  .followup { border-left: 3px solid var(--primary); padding: 8px 14px; background: var(--soft); border-radius: 0 10px 10px 0; margin-top: 12px; }
+  details summary { cursor: pointer; font-weight: 600; margin-top: 12px; }
+  .yours { color: var(--muted); border-left: 3px solid var(--border); padding-left: 12px; margin: 0 0 12px; }
+  .report h1 { font-size: 1.4rem; } .report table { border-collapse: collapse; margin: 8px 0 16px; }
+  .report td, .report th { border: 1px solid var(--border); padding: 6px 12px; text-align: left; }
+  .report blockquote { color: var(--muted); border-left: 3px solid var(--border); margin: 0; padding-left: 12px; }
+  .warn { background: var(--part-bg); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+  a { color: var(--primary); }
+  .hidden { display: none !important; }
+  footer { color: var(--muted); font-size: .85rem; margin-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m6 3 14 9-14 9V3Z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+</svg>
+<main>
+  <h1><svg class="i"><use href="#i-mic"/></svg>Mock Interviewer</h1>
+  <p class="sub">Practice campus-placement questions out loud. A small AI model running <b>in your browser</b> checks your answer
+    against the key points interviewers listen for, then tells you what you missed. Your answers never leave your device.</p>
+
+  <section id="setup" class="card">
+    <h2>Set up your interview</h2>
+    <div id="nogpu" class="warn hidden">This demo needs <b>WebGPU</b> (desktop Chrome or Edge). Your browser does not have it,
+      so the AI cannot run here. The full version with a stronger model runs locally from the
+      <a href="https://github.com/VivekVagale/mock-interviewer">GitHub repo</a>.</div>
+    <p class="note" style="margin-top:0">Topics</p>
+    <div class="chips" id="topics"></div>
+    <label class="row">Questions <input type="range" id="n" min="3" max="10" value="5"> <b id="nV">5</b></label>
+    <label class="row">AI model <select id="model"></select></label>
+    <p class="note" id="modelNote"></p>
+    <div class="actions"><button class="primary" id="start"><svg class="i"><use href="#i-play"/></svg>Start interview</button></div>
+    <div id="loading" class="hidden"><div class="bar"><div id="loadBar"></div></div><p class="note" id="loadText"></p></div>
+  </section>
+
+  <section id="ask" class="card hidden">
+    <div class="qmeta" id="qmeta"></div>
+    <div class="question" id="question"></div>
+    <textarea id="answer" placeholder="Type your answer, or press Record and speak it."></textarea>
+    <div class="actions">
+      <button class="primary" id="submit" disabled><svg class="i"><use href="#i-send"/></svg>Submit answer</button>
+      <button id="record"><svg class="i"><use href="#i-mic"/></svg><span>Record</span></button>
+      <span class="note" id="askNote"></span>
+    </div>
+  </section>
+
+  <section id="result" class="card hidden">
+    <div class="scorebox"><div class="ring" id="ring"><span id="score"></span></div>
+      <div><h2 style="margin:0" id="rq"></h2><p class="note" id="rcomm" style="margin:4px 0 0"></p></div></div>
+    <p class="yours" id="yours"></p>
+    <div id="points"></div>
+    <p id="feedback"></p>
+    <div class="followup hidden" id="followup"></div>
+    <details><summary>A strong answer</summary><p id="model"></p></details>
+    <div class="actions"><button class="primary" id="next"><svg class="i"><use href="#i-next"/></svg>Next question</button></div>
+  </section>
+
+  <section id="done" class="card hidden">
+    <div class="report" id="report"></div>
+    <div class="actions">
+      <button class="primary" id="download"><svg class="i"><use href="#i-down"/></svg>Download report</button>
+      <button id="again"><svg class="i"><use href="#i-play"/></svg>New interview</button>
+    </div>
+  </section>
+
+  <footer>How the grading was validated, and a stronger 8B version that runs locally with Ollama:
+    <a href="https://github.com/VivekVagale/mock-interviewer">github.com/VivekVagale/mock-interviewer</a> · by Vivek Vagale</footer>
+</main>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
