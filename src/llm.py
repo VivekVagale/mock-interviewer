@@ -15,6 +15,8 @@ def chat(messages: list[dict], model: str = MODEL, schema: dict | None = None,
 
     `schema` turns on Ollama's structured output: the model is forced to return
     JSON matching the schema, so the grader's reply can always be parsed.
+    `num_predict` caps the reply length: small models in JSON mode sometimes
+    never stop generating, and a cap turns a hang into a fast, visible error.
     `think=False` turns off the hidden reasoning some models (qwen3) do, which
     is slower and not needed for short answers.
     """
@@ -23,7 +25,7 @@ def chat(messages: list[dict], model: str = MODEL, schema: dict | None = None,
         "messages": messages,
         "stream": False,
         "think": False,
-        "options": {"temperature": temperature, "num_ctx": 4096},
+        "options": {"temperature": temperature, "num_ctx": 4096, "num_predict": 1200},
     }
     if schema:
         body["format"] = schema
