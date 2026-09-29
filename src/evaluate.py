@@ -4,12 +4,15 @@ Run:  python -m src.evaluate --model qwen3:8b
       python -m src.evaluate --model llama3.2:3b --repeats 3
 
 Uses eval/graded_answers.json: for 12 questions, one strong, one medium, one
-weak and one "waffle" answer (long and confident, but missing the key points).
-Four checks:
+weak, one "waffle" answer (long and confident, but missing the key points) and
+one "paraphrase" answer (complete and correct, but avoiding the rubric's words).
+Five checks:
   1. ordering: strong > medium > weak on each question
   2. Spearman correlation between intended quality (2/1/0) and score
   3. waffle: does fluent filler score like a weak answer, not a good one?
-  4. consistency: re-grade at temperature 0.7 and measure the score spread
+  4. paraphrase: does a correct answer in different words score near strong,
+     or is the grader just matching keywords?
+  5. consistency: re-grade at temperature 0.7 and measure the score spread
 """
 
 import argparse
@@ -68,12 +71,14 @@ def main() -> None:
         ok = scores["strong"] > scores["medium"] > scores["weak"]
         ordered += ok
         rows.append({"id": item["id"], **scores, "ordered": ok})
-        print(f"{item['id']:22} strong {scores['strong']:4}  medium {scores['medium']:4}  "
-              f"weak {scores['weak']:4}  waffle {scores['waffle']:4}  {'ok' if ok else 'WRONG ORDER'}")
+        print(f"{item['id']:22} strong {scores['strong']:4}  para {scores.get('paraphrase', '-'):4}  "
+              f"medium {scores['medium']:4}  weak {scores['weak']:4}  waffle {scores['waffle']:4}  "
+              f"{'ok' if ok else 'WRONG ORDER'}")
 
     levels = [LEVEL[k] for r in rows for k in LEVEL]
     graded = [r[k] for r in rows for k in LEVEL]
-    mean = {k: round(statistics.mean(r[k] for r in rows), 2) for k in ("strong", "medium", "weak", "waffle")}
+    kinds = [k for k in ("strong", "paraphrase", "medium", "weak", "waffle") if k in rows[0]]
+    mean = {k: round(statistics.mean(r[k] for r in rows), 2) for k in kinds}
     waffle_below_medium = sum(r["waffle"] < r["medium"] for r in rows)
     out = {
         "model": args.model,
@@ -82,6 +87,8 @@ def main() -> None:
         "spearman": round(spearman(levels, graded), 3),
         "mean_score": mean,
         "waffle_below_medium": f"{waffle_below_medium}/{len(rows)}",
+        "paraphrase_within_2_of_strong": (f"{sum(r['strong'] - r['paraphrase'] <= 2 for r in rows)}/{len(rows)}"
+                                          if "paraphrase" in rows[0] else None),
         "mean_score_std_on_regrade": round(statistics.mean(spreads), 2),
         "seconds_per_grade": round(statistics.mean(times), 1),
         "rows": rows,
