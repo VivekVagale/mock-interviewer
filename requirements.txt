@@ -1,0 +1,4 @@
+requests>=2.31
+streamlit>=1.38
+faster-whisper>=1.0   # optional: voice answers
+pytest>=8.0

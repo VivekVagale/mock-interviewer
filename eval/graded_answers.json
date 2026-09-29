@@ -1,0 +1,65 @@
+{
+  "note": "SYNTHETIC answers written for this project to test the grader, not answers from real candidates. Each question has four answers written on purpose to be strong, medium, weak, and 'waffle' (long and confident but missing the key points). A good grader must score strong > medium > weak, and must not be fooled by waffle.",
+  "items": [
+    {"id": "dbms-acid", "answers": {
+      "strong": "ACID stands for Atomicity, Consistency, Isolation and Durability. Atomicity means a transaction either completes fully or not at all, so a bank transfer never debits one account without crediting the other. Consistency means every transaction takes the database from one valid state to another, respecting constraints. Isolation means concurrent transactions don't see each other's half-done work, as if they ran one after another. Durability means once committed, the change survives a crash, usually because it is written to a log first.",
+      "medium": "ACID is atomicity, consistency, isolation, durability. Atomicity is all or nothing. Durability means the data is saved permanently. Consistency and isolation are about keeping data correct when many users use it.",
+      "weak": "ACID is a type of SQL query that makes the database faster by locking tables.",
+      "waffle": "ACID is one of the most important and fundamental concepts in the entire field of databases and it is used by every major company in the industry today. It really ensures that everything works properly and reliably at scale, which is extremely critical for modern applications, and it is something every good software engineer must deeply understand and apply in real-world production systems every day."}},
+    {"id": "dbms-normalization", "answers": {
+      "strong": "Normalization is organising tables to remove redundancy so we avoid insert, update and delete anomalies. 1NF means every column holds atomic values with no repeating groups. 2NF means it is in 1NF and no non-key column depends on only part of a composite primary key. 3NF means it is in 2NF and no non-key column depends on another non-key column, so there are no transitive dependencies, like storing city and pincode where city depends on pincode.",
+      "medium": "Normalization reduces duplicate data. In 1NF values should be atomic. 2NF and 3NF remove more dependencies so the tables are cleaner.",
+      "weak": "Normalization means converting all data to lowercase and removing spaces before storing it.",
+      "waffle": "Normalization is a very powerful technique that database designers use to make their databases better, cleaner and more professional. There are many normal forms and each one is more advanced than the previous one, and understanding them is really key to becoming an expert in database management systems and designing world class schemas."}},
+    {"id": "os-deadlock", "answers": {
+      "strong": "A deadlock is when a set of processes wait forever because each holds a resource another one needs. Four conditions must all hold: mutual exclusion, where a resource can be held by only one process; hold and wait, where a process holds one resource while waiting for another; no preemption, where resources can't be forcibly taken away; and circular wait, where there is a cycle of processes each waiting for the next.",
+      "medium": "Deadlock is when two processes are waiting for each other and nothing moves. Conditions include mutual exclusion and circular wait.",
+      "weak": "Deadlock is when the CPU is overheated and stops executing instructions.",
+      "waffle": "Deadlock is a very serious and critical problem in operating systems that every system designer must be very careful about. It can cause major issues in production and there are many advanced strategies to handle it, and handling it well is what separates a good operating system from a bad one in the real world."}},
+    {"id": "os-process-thread", "answers": {
+      "strong": "A process is a program in execution with its own separate address space, files and resources. A thread is a unit of execution inside a process; threads of the same process share its memory and open files but have their own stack and registers. Threads are cheaper to create and switch between than processes. The downside is that because memory is shared, a bug or crash in one thread can bring down the whole process.",
+      "medium": "A process is a running program. A thread is a smaller part of a process. Threads are faster to create.",
+      "weak": "A thread is a bigger version of a process that runs on a separate computer.",
+      "waffle": "Processes and threads are both extremely important concepts that modern operating systems rely on heavily. They are used everywhere, from mobile phones to supercomputers, and a solid grasp of both is absolutely essential for writing efficient, high-performance, scalable software that meets industry standards."}},
+    {"id": "cn-tcp-udp", "answers": {
+      "strong": "TCP is connection-oriented: it sets up a connection with a three-way handshake and guarantees reliable, ordered delivery using acknowledgements and retransmission, plus flow and congestion control. UDP is connectionless; it just sends datagrams with no guarantee of delivery or order, so it has much lower overhead and latency. I'd use UDP where speed matters more than losing a packet, like video calls, online gaming, live streaming or DNS lookups.",
+      "medium": "TCP is reliable and UDP is not reliable but faster. UDP is used for things like video streaming.",
+      "weak": "TCP is used for wired networks and UDP is used for WiFi networks.",
+      "waffle": "TCP and UDP are two of the most famous and widely used protocols on the internet today. Every networking engineer must know them very well, and choosing the right one can make a huge difference to the success of an application, which is why companies ask about them so often in interviews."}},
+    {"id": "oop-pillars", "answers": {
+      "strong": "The four pillars are encapsulation, abstraction, inheritance and polymorphism. Encapsulation bundles data with the methods that use it and hides internal state behind private fields. Abstraction exposes only what the user needs, like a car's steering wheel without the engine details. Inheritance lets a class reuse and extend another class, like Dog extending Animal. Polymorphism means one interface with many forms: method overloading at compile time and overriding at runtime.",
+      "medium": "The pillars are encapsulation, abstraction, inheritance and polymorphism. Inheritance means a child class gets properties of the parent class. Polymorphism means many forms.",
+      "weak": "OOP pillars are classes, objects, loops and functions.",
+      "waffle": "Object-oriented programming is a very popular and powerful paradigm used in languages like Java, C++ and Python. Its pillars form the strong foundation of all modern software development and help developers write clean, reusable, maintainable and professional code that scales to millions of users."}},
+    {"id": "dsa-hashmap", "answers": {
+      "strong": "A hash map stores key-value pairs in an array of buckets. A hash function turns the key into an index, so insert and lookup are O(1) on average. Two keys can land in the same bucket; that collision is handled by chaining, keeping a list per bucket, or by open addressing, probing for the next free slot. When the load factor, entries divided by buckets, passes a threshold like 0.75, the table is resized and every key is rehashed.",
+      "medium": "A hash map uses a hash function to find where to store a key, so lookup is fast, about O(1). Sometimes two keys collide.",
+      "weak": "A hash map sorts all the keys alphabetically so it can binary search them.",
+      "waffle": "Hash maps are one of the most useful and powerful data structures ever invented and are used in almost every program. They are incredibly efficient and every serious programmer uses them daily, which is why mastering them is key to cracking coding interviews at top product companies."}},
+    {"id": "dsa-bfs-dfs", "answers": {
+      "strong": "BFS explores a graph level by level from the start node using a queue, visiting all neighbours before going deeper. DFS goes as deep as possible along one path before backtracking, using a stack or recursion. Both run in O(V + E). BFS is better when you need the shortest path in an unweighted graph, like the minimum number of moves in a maze, because it reaches nodes in order of distance.",
+      "medium": "BFS goes breadth wise and DFS goes depth wise. BFS uses a queue. BFS is good for shortest path.",
+      "weak": "BFS is faster than DFS because it uses binary search on the graph.",
+      "waffle": "BFS and DFS are classic graph algorithms that are asked in almost every coding interview. They are extremely important for solving a wide variety of real-world problems and a good programmer should be comfortable implementing both of them quickly and correctly under pressure."}},
+    {"id": "ml-overfitting", "answers": {
+      "strong": "Overfitting is when a model learns the noise in the training data, so it scores very well on training data but poorly on new data. You spot it by a large gap between training and validation performance. To prevent it: get more data or use augmentation, add regularization like L1/L2 or dropout, use a simpler model, and use early stopping and cross-validation.",
+      "medium": "Overfitting means the model memorises the training data and doesn't work on test data. We can use dropout to reduce it.",
+      "weak": "Overfitting is when the model is too big to fit in GPU memory.",
+      "waffle": "Overfitting is a very common and dangerous problem in machine learning that every data scientist faces. It can completely ruin a project if not handled properly, so it is extremely important to always be aware of it and follow the best practices used by top AI companies."}},
+    {"id": "ml-precision-recall", "answers": {
+      "strong": "Precision is TP divided by TP plus FP: of everything the model flagged positive, how much was right. Recall is TP divided by TP plus FN: of all the real positives, how many the model found. Moving the decision threshold trades one for the other, and F1 is their harmonic mean. Recall matters more when missing a positive is costly, like cancer screening or fraud detection, where a false alarm is cheaper than a miss.",
+      "medium": "Precision is about how many predicted positives are correct and recall is about how many actual positives we found. Recall is important in medical diagnosis.",
+      "weak": "Precision is the number of decimal places the model outputs and recall is how fast it predicts.",
+      "waffle": "Precision and recall are two very important evaluation metrics in machine learning that every practitioner must understand deeply. They help us understand how good our model really is and are widely used across the industry in many different applications and domains."}},
+    {"id": "ml-train-val-test", "answers": {
+      "strong": "The training set is used to fit the model's weights. The validation set is used to tune hyperparameters and choose between models or epochs. The test set is held back and used only once at the end to get an unbiased estimate of performance on unseen data. If you tune on the test set, information leaks into your choices and the reported score becomes over-optimistic.",
+      "medium": "We train on the training set and check on the test set. Validation is used to tune the model.",
+      "weak": "We split the data so that training runs faster on smaller pieces.",
+      "waffle": "Splitting data is a crucial and fundamental best practice in every machine learning project. All top companies follow it strictly, and doing it right is the key to building accurate, robust, production-grade models that deliver real business value."}},
+    {"id": "hr-project", "answers": {
+      "strong": "I built Scam Shield, a model that flags scam SMS. The problem was that people in my family kept getting fake KYC and electricity-bill messages. I cleaned a public phishing dataset, trained a TF-IDF baseline and then fine-tuned DistilBERT, which caught 97% of scams on the test set. The hard part was that it flagged real Indian bank alerts as spam because the dataset had none, so I added Indian-style training messages and cut false alarms from 11 to 2. I learnt to always test on data that looks like real users'.",
+      "medium": "My best project is a scam SMS detector. I used DistilBERT and it got good accuracy. It was challenging but I learnt a lot about machine learning.",
+      "weak": "I made a calculator in C in first year.",
+      "waffle": "The project I am most proud of is a very innovative and impactful AI project that uses cutting-edge deep learning technology to solve a very important real-world problem. It was a great learning experience, I worked very hard on it, and it really showcases my passion, dedication and strong technical skills in artificial intelligence."}}
+  ]
+}
