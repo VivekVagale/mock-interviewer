@@ -1,126 +1,126 @@
 {
-  "model": "qwen3:8b",
+  "model": "llama3.2:3b",
   "n_questions": 12,
-  "ordering_accuracy": 1.0,
-  "spearman": 0.981,
+  "ordering_accuracy": 0.167,
+  "spearman": 0.443,
   "mean_score": {
-    "strong": 10.0,
-    "paraphrase": 9.9,
-    "medium": 4.28,
-    "weak": 0.0,
-    "waffle": 0.0
+    "strong": 5.0,
+    "paraphrase": 4.79,
+    "medium": 1.24,
+    "weak": 0.02,
+    "waffle": 0.41
   },
-  "waffle_below_medium": "12/12",
-  "paraphrase_within_2_of_strong": "12/12",
-  "mean_score_std_on_regrade": 0.05,
-  "seconds_per_grade": 9.0,
-  "failed_replies": "0/84",
+  "waffle_below_medium": "3/12",
+  "paraphrase_within_2_of_strong": "11/12",
+  "mean_score_std_on_regrade": 2.21,
+  "seconds_per_grade": 7.8,
+  "failed_replies": "14/84",
   "rows": [
     {
       "id": "dbms-acid",
       "strong": 10.0,
-      "medium": 7.5,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
       "paraphrase": 10.0,
-      "ordered": true
+      "ordered": false
     },
     {
       "id": "dbms-normalization",
       "strong": 10.0,
-      "medium": 3.8,
+      "medium": 7.5,
       "weak": 0.0,
-      "waffle": 0.0,
+      "waffle": 1.2,
       "paraphrase": 10.0,
       "ordered": true
     },
     {
       "id": "os-deadlock",
-      "strong": 10.0,
-      "medium": 5.0,
+      "strong": 0.0,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
-      "paraphrase": 10.0,
-      "ordered": true
+      "paraphrase": 0.0,
+      "ordered": false
     },
     {
       "id": "os-process-thread",
       "strong": 10.0,
-      "medium": 3.8,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
-      "paraphrase": 10.0,
-      "ordered": true
+      "paraphrase": 0.0,
+      "ordered": false
     },
     {
       "id": "cn-tcp-udp",
       "strong": 10.0,
-      "medium": 2.5,
-      "weak": 0.0,
-      "waffle": 0.0,
+      "medium": 0.0,
+      "weak": 0.2,
+      "waffle": 2.5,
       "paraphrase": 10.0,
-      "ordered": true
+      "ordered": false
     },
     {
       "id": "oop-pillars",
       "strong": 10.0,
-      "medium": 3.8,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
       "paraphrase": 10.0,
-      "ordered": true
+      "ordered": false
     },
     {
       "id": "dsa-hashmap",
-      "strong": 10.0,
-      "medium": 6.2,
+      "strong": 0.0,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
-      "paraphrase": 10.0,
-      "ordered": true
+      "paraphrase": 7.5,
+      "ordered": false
     },
     {
       "id": "dsa-bfs-dfs",
-      "strong": 10.0,
-      "medium": 5.0,
+      "strong": 0.0,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
-      "paraphrase": 10.0,
-      "ordered": true
+      "paraphrase": 0.0,
+      "ordered": false
     },
     {
       "id": "ml-overfitting",
-      "strong": 10.0,
-      "medium": 3.8,
+      "strong": 0.0,
+      "medium": 1.2,
       "weak": 0.0,
       "waffle": 0.0,
-      "paraphrase": 8.8,
-      "ordered": true
+      "paraphrase": 0.0,
+      "ordered": false
     },
     {
       "id": "ml-precision-recall",
-      "strong": 10.0,
-      "medium": 5.0,
+      "strong": 0.0,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
-      "paraphrase": 10.0,
-      "ordered": true
+      "paraphrase": 0.0,
+      "ordered": false
     },
     {
       "id": "ml-train-val-test",
-      "strong": 10.0,
-      "medium": 2.5,
+      "strong": 0.0,
+      "medium": 0.0,
       "weak": 0.0,
       "waffle": 0.0,
-      "paraphrase": 10.0,
-      "ordered": true
+      "paraphrase": 0.0,
+      "ordered": false
     },
     {
       "id": "hr-project",
       "strong": 10.0,
-      "medium": 2.5,
+      "medium": 6.2,
       "weak": 0.0,
-      "waffle": 0.0,
+      "waffle": 1.2,
       "paraphrase": 10.0,
       "ordered": true
     }
