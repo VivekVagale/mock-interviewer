@@ -1,0 +1,127 @@
+{
+  "model": "qwen3:1.7b",
+  "n_questions": 12,
+  "ordering_accuracy": 0.75,
+  "spearman": 0.921,
+  "mean_score": {
+    "strong": 9.69,
+    "paraphrase": 8.33,
+    "medium": 2.9,
+    "weak": 0.23,
+    "waffle": 1.46
+  },
+  "waffle_below_medium": "9/12",
+  "paraphrase_within_2_of_strong": "9/12",
+  "mean_score_std_on_regrade": 0.39,
+  "seconds_per_grade": 7.8,
+  "rows": [
+    {
+      "id": "dbms-acid",
+      "strong": 10.0,
+      "medium": 6.2,
+      "weak": 0.0,
+      "waffle": 0.0,
+      "paraphrase": 8.8,
+      "ordered": true
+    },
+    {
+      "id": "dbms-normalization",
+      "strong": 7.5,
+      "medium": 1.2,
+      "weak": 0.0,
+      "waffle": 0.0,
+      "paraphrase": 6.2,
+      "ordered": true
+    },
+    {
+      "id": "os-deadlock",
+      "strong": 10.0,
+      "medium": 2.0,
+      "weak": 0.0,
+      "waffle": 0.0,
+      "paraphrase": 10.0,
+      "ordered": true
+    },
+    {
+      "id": "os-process-thread",
+      "strong": 10.0,
+      "medium": 1.5,
+      "weak": 1.5,
+      "waffle": 3.8,
+      "paraphrase": 10.0,
+      "ordered": false
+    },
+    {
+      "id": "cn-tcp-udp",
+      "strong": 10.0,
+      "medium": 2.5,
+      "weak": 0.0,
+      "waffle": 6.2,
+      "paraphrase": 10.0,
+      "ordered": true
+    },
+    {
+      "id": "oop-pillars",
+      "strong": 10.0,
+      "medium": 2.5,
+      "weak": 0.0,
+      "waffle": 0.0,
+      "paraphrase": 10.0,
+      "ordered": true
+    },
+    {
+      "id": "dsa-hashmap",
+      "strong": 10.0,
+      "medium": 3.8,
+      "weak": 0.0,
+      "waffle": 0.0,
+      "paraphrase": 6.2,
+      "ordered": true
+    },
+    {
+      "id": "dsa-bfs-dfs",
+      "strong": 10.0,
+      "medium": 10.0,
+      "weak": 0.0,
+      "waffle": 2.5,
+      "paraphrase": 10.0,
+      "ordered": false
+    },
+    {
+      "id": "ml-overfitting",
+      "strong": 8.8,
+      "medium": 1.2,
+      "weak": 0.0,
+      "waffle": 5.0,
+      "paraphrase": 6.2,
+      "ordered": true
+    },
+    {
+      "id": "ml-precision-recall",
+      "strong": 10.0,
+      "medium": 2.5,
+      "weak": 0.0,
+      "waffle": 0.0,
+      "paraphrase": 10.0,
+      "ordered": true
+    },
+    {
+      "id": "ml-train-val-test",
+      "strong": 10.0,
+      "medium": 1.2,
+      "weak": 0.0,
+      "waffle": 0.0,
+      "paraphrase": 3.8,
+      "ordered": true
+    },
+    {
+      "id": "hr-project",
+      "strong": 10.0,
+      "medium": 0.2,
+      "weak": 1.2,
+      "waffle": 0.0,
+      "paraphrase": 8.8,
+      "ordered": false
+    }
+  ]
+}

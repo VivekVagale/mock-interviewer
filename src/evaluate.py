@@ -56,17 +56,27 @@ def main() -> None:
     args = ap.parse_args()
 
     items = json.loads(EVAL.read_text(encoding="utf-8"))["items"]
-    rows, spreads, ordered, times = [], [], 0, []
+    rows, spreads, ordered, times, failures = [], [], 0, [], 0
+
+    def safe_grade(q, answer, **kw) -> float:
+        """A reply that is not valid JSON (e.g. cut off at the length cap) is what a user
+        would see as an error, so it is counted as a failure and scores 0."""
+        nonlocal failures
+        try:
+            return grade(q, answer, model=args.model, **kw)["score"]
+        except (ValueError, KeyError):   # json.JSONDecodeError is a ValueError
+            failures += 1
+            return 0.0
+
     for item in items:
         q = by_id(item["id"])
         scores = {}
         for kind, answer in item["answers"].items():
             t = time.time()
-            scores[kind] = grade(q, answer, model=args.model)["score"]
+            scores[kind] = safe_grade(q, answer)
             times.append(time.time() - t)
         for kind in ("strong", "medium"):
-            reps = [grade(q, item["answers"][kind], model=args.model, temperature=0.7)["score"]
-                    for _ in range(args.repeats)]
+            reps = [safe_grade(q, item["answers"][kind], temperature=0.7) for _ in range(args.repeats)]
             spreads.append(statistics.pstdev(reps + [scores[kind]]))
         ok = scores["strong"] > scores["medium"] > scores["weak"]
         ordered += ok
@@ -91,6 +101,7 @@ def main() -> None:
                                           if "paraphrase" in rows[0] else None),
         "mean_score_std_on_regrade": round(statistics.mean(spreads), 2),
         "seconds_per_grade": round(statistics.mean(times), 1),
+        "failed_replies": f"{failures}/{len(times) + len(spreads) * args.repeats}",
         "rows": rows,
     }
     RESULTS.mkdir(exist_ok=True)
