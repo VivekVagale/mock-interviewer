@@ -88,13 +88,15 @@ function showResult() {
   $("rq").textContent = question.question;
   $("rcomm").textContent = `Clarity and structure: ${g.communication}/5`;
   $("yours").textContent = answer;
-  $("points").innerHTML = g.points.map((p) => `<div class="pt ${esc(p.verdict)}"><span class="tag">${esc(p.verdict)}</span>
-    <div>${esc(p.point)}${p.evidence ? `<q>${esc(p.evidence)}</q>` : ""}</div></div>`).join("")
-    + (g.wrong_statements ?? []).map((w) => `<div class="pt missed"><span class="tag">Incorrect</span><div>${esc(w)}</div></div>`).join("");
-  $("feedback").innerHTML = `<b>Feedback:</b> ${esc(g.feedback)}`;
+  const GLYPH = { covered: "M5 12l5 5 9-10", partial: "M6 12h12", missed: "M7 7l10 10M17 7 7 17" };
+  const glyph = (v) => `<span class="g"><svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px;stroke-width:3"><path d="${GLYPH[v] ?? GLYPH.missed}"/></svg></span>`;
+  $("points").innerHTML = g.points.map((p) => `<div class="pt ${esc(p.verdict)}">${glyph(p.verdict)}
+    <div><span class="tag">${esc(p.verdict)}</span>${esc(p.point)}${p.evidence ? `<q>${esc(p.evidence)}</q>` : ""}</div></div>`).join("")
+    + (g.wrong_statements ?? []).map((w) => `<div class="pt missed">${glyph("missed")}<div><span class="tag">Incorrect</span>${esc(w)}</div></div>`).join("");
+  $("feedback").textContent = g.feedback;
   $("followup").classList.toggle("hidden", !fu);
   $("followup").innerHTML = fu ? `<b>The interviewer might follow up:</b> ${esc(fu)}` : "";
-  $("model").textContent = g.model_answer;
+  $("modelAnswer").textContent = g.model_answer;
   $("next").innerHTML = S.i + 1 < S.questions.length
     ? `<svg class="i"><use href="#i-next"/></svg>Next question` : `<svg class="i"><use href="#i-next"/></svg>See my report`;
   show("result");
