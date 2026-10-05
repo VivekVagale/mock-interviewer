@@ -1,5 +1,7 @@
 # AI Mock Interviewer
 
+[![tests](https://github.com/VivekVagale/mock-interviewer/actions/workflows/tests.yml/badge.svg)](https://github.com/VivekVagale/mock-interviewer/actions/workflows/tests.yml)
+
 Practice campus-placement interviews out loud. The app asks DBMS, OS, CN, OOP,
 DSA, ML and HR questions, listens to your answer (or lets you type), and a
 **local LLM** checks it against the key points a real interviewer listens for.
